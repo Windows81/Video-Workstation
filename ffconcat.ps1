@@ -1,0 +1,1 @@
+awk 'BEGIN{FPAT = ""([^,]*)|(\\""[^\\""]+\\"")""}{gsub(/\\\\/,""/"",$1);printf(""file "%s"\\n"",$1);switch(NF){case 3:printf(""outpoint %s\n"",$3);case 2:printf(""inpoint %s\n"",$2);}}' $args[0]|ffmpeg -f concat -protocol_whitelist pipe,file -safe 0 -i - -c copy @($args|select -Skip 1)

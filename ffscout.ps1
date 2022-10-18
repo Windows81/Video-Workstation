@@ -1,0 +1,1 @@
+$f=$args[0];"">$f;while(1){echo "Video Path:";$i=(read-host);if($i-eq'q'){break}elseif($i-ne''){$v=$i;$r2=0}echo "Input Time:";$r1=fftime -ss $r2 $v;echo $r1;echo "Output Time:";$r2=fftime -ss $r1 $v;echo $r2;"$v,$r1,$r2">>$f}
