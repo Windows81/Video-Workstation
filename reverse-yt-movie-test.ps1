@@ -10,4 +10,4 @@ param (
         $af = 'bestaudio'
 )
 rm $PSScriptRoot\test -Force -Recurse -ErrorAction Ignore
-$PSScriptRoot\reverse-yt-movie.ps1 $url test $vf $af
+. "$PSScriptRoot\reverse-yt-movie.ps1" $url test $vf $af

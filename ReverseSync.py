@@ -25,7 +25,7 @@ def path_ra(project: str, ext_a: str):
     return os.path.join(path_dir(project), f".r.{ext_a}")
 
 
-def process(project: str, ext_v: str, ext_a: str, ext_av: str):
+def process(project: str, ext_v: str, ext_a: str, ext_av: str, ff_args: str = ''):
     rv = path_rv(project, ext_v)
     ra = path_ra(project, ext_a)
     rav = path_rav(project, ext_av)
@@ -48,7 +48,6 @@ if __name__ == "__main__":
     args = argparse.ArgumentParser()
     args.add_argument("project", type=str)
     args.add_argument("ext_v", type=str, default="v.mp4", nargs="?")
-    args.add_argument("ext_a", type=str, default="a.mp3", nargs="?")
-    args.add_argument("ext_av", type=str, default="av.webm", nargs="?")
-    args.add_argument("ext_seg", type=str, default="t.webm", nargs="?")
+    args.add_argument("ext_a", type=str, default="a.aac", nargs="?")
+    args.add_argument("ext_av", type=str, default="av.mp4", nargs="?")
     process(**args.parse_args().__dict__)

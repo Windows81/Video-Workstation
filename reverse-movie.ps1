@@ -2,10 +2,10 @@
 param (
 	[Parameter(Mandatory = 1)]
 	[String]
-	$url,
+	$pn,
 	[Parameter(Mandatory = 1)]
 	[String]
-	$pn
+	$url
 )
 $pf = $PSScriptRoot
 if ($pn -eq "test") {

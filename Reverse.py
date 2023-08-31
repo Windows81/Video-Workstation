@@ -6,12 +6,11 @@ import argparse
 import os
 
 
-def process(project: str, ext_v: str, ext_a: str, ext_av: str, ext_seg: str):
-    ReverseAudio.process(project, ext_a)
-    ReverseVideo.process(project, ext_v, ext_seg)
-    ReverseSync.process(project, ext_v, ext_a, ext_av)
+def process(project: str, ext_v: str, ext_a: str, ext_av: str, ext_seg: str, ff_args: str = ''):
+    ReverseAudio.process(project, ext_a, ff_args=ff_args)
+    ReverseVideo.process(project, ext_v, ext_seg, ff_args=ff_args)
+    ReverseSync.process(project, ext_v, ext_a, ext_av, ff_args=ff_args)
     os.remove(ReverseVideo.path_rv(project, ext_v))
-    return True
 
 
 if __name__ == "__main__":
@@ -21,4 +20,5 @@ if __name__ == "__main__":
     args.add_argument("ext_a", type=str, default="a.mp3", nargs="?")
     args.add_argument("ext_av", type=str, default="av.mp4", nargs="?")
     args.add_argument("ext_seg", type=str, default="t.ts", nargs="?")
+    args.add_argument("ff_args", type=str, default="", nargs="?")
     process(**args.parse_args().__dict__)
