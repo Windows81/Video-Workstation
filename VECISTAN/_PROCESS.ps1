@@ -1,5 +1,5 @@
-$p = Join-Path $PSScriptRoot VECISTAN "Untitled%08d.tif"
-$a = Join-Path $PSScriptRoot VECISTAN HUM.mp3
+$p = Join-Path $PSScriptRoot BackgroundLoop "Untitled%08d.tif"
+$a = Join-Path $PSScriptRoot HUM.mp3
 $f = @"
 [0:v]scale=1920:1080[0_v];
 [0_v][1:v]overlay=alpha=premultiplied:shortest=1,chromashift=cbh=7,eq=1:0:1.417,boxblur=cr=5:lr=0;
