@@ -99,5 +99,5 @@ if __name__ == "__main__":
     args.add_argument("ext_seg", type=str, default="t.webm", nargs="?")
     args.add_argument("threads", type=int, default=1, nargs="?")
     args.add_argument("ff_args", type=str, default="", nargs="?")
-    args.add_argument("encode_twice", action="store-true")
+    args.add_argument("--encode_twice", action="store_true")
     process(**args.parse_args().__dict__)
