@@ -27,7 +27,7 @@ def path_rv(project: str, ext_v: str):
     return os.path.join(d, f".r.{ext_v}")
 
 
-def process(project: str, ext_v: str, ext_seg: str, ff_args: str = ''):
+def process(project: str, ext_v: str, ext_seg: str, encode_twice: bool = False, ff_args: str = ''):
     ext_vid_l = ext_v.lower()
     ext_seg_l = ext_seg.lower()
     if ext_vid_l.endswith("mp4") and ext_seg_l.endswith("webm"):
@@ -45,7 +45,8 @@ def process(project: str, ext_v: str, ext_seg: str, ff_args: str = ''):
 
     for dur in ["60.0", "69.0", "42.0", "127.1", "30.0"]:
         os.system(
-            f'ffmpeg -an -i "{v}" -f segment -vcodec copy -an -loglevel panic '
+            f'ffmpeg -i "{v}" -f segment -an -dn -loglevel error '
+            + ('-q 7 -preset slow ' if encode_twice else '-vcodec copy ')
             + f'-reset_timestamps 1 -segment_time {dur} -n "{d}/%d.{ext_seg}"'
         )
         f = open(t, "w")
@@ -59,8 +60,8 @@ def process(project: str, ext_v: str, ext_seg: str, ff_args: str = ''):
             if os.path.exists(f"{i}.r.{ext_seg}"):
                 continue
             os.system(
-                f"ffmpeg -dn -an -i {i}.{ext_seg} -vf setpts=PTS-STARTPTS,reverse {ff_args} -q 7 "
-                + f"-loglevel panic -dn -an {i}.r.{ext_seg} -n",
+                f"ffmpeg -i {i}.{ext_seg} -vf setpts=PTS-STARTPTS,reverse {ff_args} "
+                + f"-q 7 -loglevel error -dn -an {i}.r.{ext_seg} -n",
             )
 
         f.close()
@@ -98,4 +99,5 @@ if __name__ == "__main__":
     args.add_argument("ext_seg", type=str, default="t.webm", nargs="?")
     args.add_argument("threads", type=int, default=1, nargs="?")
     args.add_argument("ff_args", type=str, default="", nargs="?")
+    args.add_argument("encode_twice", action="store-true")
     process(**args.parse_args().__dict__)

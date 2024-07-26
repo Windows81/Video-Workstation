@@ -15,7 +15,7 @@ def process(project: str, ext_v: str, ext_a: str, ext_av: str, ext_seg: str, ff_
 
 if __name__ == "__main__":
     args = argparse.ArgumentParser()
-    args.add_argument("project", type=str)
+    args.add_argument("project", "--project", type=str)
     args.add_argument("ext_v", type=str, default="v.mp4", nargs="?")
     args.add_argument("ext_a", type=str, default="a.mp3", nargs="?")
     args.add_argument("ext_av", type=str, default="av.mp4", nargs="?")
