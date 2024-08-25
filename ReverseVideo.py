@@ -45,7 +45,7 @@ def process(project: str, ext_v: str, ext_seg: str, encode_twice: bool = False, 
 
     for dur in ["60.0", "69.0", "42.0", "127.1", "30.0"]:
         os.system(
-            f'ffmpeg -i "{v}" -f segment -an -dn -loglevel error '
+            f'ffmpeg -i "{v}" -f segment -an -loglevel error '
             + ('-q 7 -preset slow ' if encode_twice else '-vcodec copy ')
             + f'-reset_timestamps 1 -segment_time {dur} -n "{d}/%d.{ext_seg}"'
         )
@@ -75,7 +75,8 @@ def process(project: str, ext_v: str, ext_seg: str, encode_twice: bool = False, 
 
         if success:
             os.system(
-                f'ffmpeg -loglevel panic -safe 0 -f concat -i "{t}" -vcodec copy "{rv}"'
+                f'ffmpeg -loglevel panic -safe 0 -f concat -i "{
+                    t}" -vcodec copy "{rv}"'
             )
         # os.remove(t)
 
