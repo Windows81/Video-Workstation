@@ -8,13 +8,13 @@ param (
 	$pn,
 	[Parameter()]
 	[String]
-	$vf = '136/bestvideo/b',
+	$vf = '22/136/311/bestvideo/b',
 	[Parameter()]
 	[String]
 	$af = 'bestaudio/b',
-        [Parameter()]
-        [String[]]
-        $others
+	[Parameter()]
+	[String[]]
+	$others
 )
 $pf = $PSScriptRoot
 if ($pn -eq "test") {
