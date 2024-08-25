@@ -60,7 +60,7 @@ def process(project: str, ext_v: str, ext_seg: str, encode_twice: bool = False, 
             if os.path.exists(f"{i}.r.{ext_seg}"):
                 continue
             os.system(
-                f"ffmpeg -i {i}.{ext_seg} -vf setpts=PTS-STARTPTS,reverse {ff_args} "
+                f"ffmpeg -i {i}.{ext_seg} -vf reverse {ff_args} "
                 + f"-q 7 -loglevel error -dn -an {i}.r.{ext_seg} -n",
             )
 
