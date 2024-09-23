@@ -7,8 +7,8 @@ import os
 
 
 def process(project: str, ext_v: str, ext_a: str, ext_av: str, ext_seg: str, encode_twice: bool, ff_args: str = ''):
-    ReverseAudio.process(project, ext_a, ff_args=ff_args)
     ReverseVideo.process(project, ext_v, ext_seg, ff_args=ff_args, encode_twice=encode_twice)
+    ReverseAudio.process(project, ext_a, ff_args=ff_args)
     ReverseSync.process(project, ext_v, ext_a, ext_av, ff_args=ff_args)
     os.remove(ReverseVideo.path_rv(project, ext_v))
 

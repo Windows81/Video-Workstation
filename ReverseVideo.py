@@ -1,33 +1,33 @@
-import argparse
 from functools import cache
+import argparse
 import os
 
 
 @cache
-def path_dir(project: str):
+def path_dir(project: str) -> str:
     root = os.path.dirname(__file__)
     return os.path.join(root, project)
 
 
 @cache
-def path_txt(project: str):
+def path_txt(project: str) -> str:
     d = path_dir(project)
     return os.path.join(d, f".txt")
 
 
 @cache
-def path_v(project: str, ext_v: str):
+def path_v(project: str, ext_v: str) -> str:
     d = path_dir(project)
     return os.path.join(d, f".{ext_v}")
 
 
 @cache
-def path_rv(project: str, ext_v: str):
+def path_rv(project: str, ext_v: str) -> str:
     d = path_dir(project)
     return os.path.join(d, f".r.{ext_v}")
 
 
-def process(project: str, ext_v: str, ext_seg: str, encode_twice: bool = False, ff_args: str = ''):
+def process(project: str, ext_v: str, ext_seg: str, encode_twice: bool = False, ff_args: str = '') -> bool:
     ext_vid_l = ext_v.lower()
     ext_seg_l = ext_seg.lower()
     if ext_vid_l.endswith("mp4") and ext_seg_l.endswith("webm"):
@@ -75,8 +75,8 @@ def process(project: str, ext_v: str, ext_seg: str, encode_twice: bool = False, 
 
         if success:
             os.system(
-                f'ffmpeg -loglevel panic -safe 0 -f concat -i "{
-                    t}" -vcodec copy "{rv}"'
+                f'ffmpeg -loglevel panic -safe 0 -f concat -i "%s" -vcodec copy "%s"' %
+                (t, rv,)
             )
         # os.remove(t)
 
@@ -98,7 +98,6 @@ if __name__ == "__main__":
     args.add_argument("project", type=str)
     args.add_argument("ext_v", type=str, default="v.webm", nargs="?")
     args.add_argument("ext_seg", type=str, default="t.webm", nargs="?")
-    args.add_argument("threads", type=int, default=1, nargs="?")
     args.add_argument("ff_args", type=str, default="", nargs="?")
     args.add_argument("--encode_twice", action="store_true")
     process(**args.parse_args().__dict__)
