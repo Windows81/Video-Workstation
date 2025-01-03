@@ -5,27 +5,27 @@ import os
 
 
 @cache
-def path_dir(project: str):
+def path_dir(project: str) -> str:
     root = os.path.dirname(__file__)
     return os.path.join(root, project)
 
 
 @cache
-def path_rav(project: str, ext_av: str):
+def path_rav(project: str, ext_av: str) -> str:
     return os.path.join(path_dir(project), f".r.{ext_av}")
 
 
 @cache
-def path_rv(project: str, ext_v: str):
+def path_rv(project: str, ext_v: str) -> str:
     return os.path.join(path_dir(project), f".r.{ext_v}")
 
 
 @cache
-def path_ra(project: str, ext_a: str):
+def path_ra(project: str, ext_a: str) -> str:
     return os.path.join(path_dir(project), f".r.{ext_a}")
 
 
-def process(project: str, ext_v: str, ext_a: str, ext_av: str, ff_args: str = ''):
+def process(project: str, ext_v: str, ext_a: str, ext_av: str, ff_args: str = '') -> bool:
     rv = path_rv(project, ext_v)
     ra = path_ra(project, ext_a)
     rav = path_rav(project, ext_av)
@@ -33,7 +33,9 @@ def process(project: str, ext_v: str, ext_a: str, ext_av: str, ff_args: str = ''
         return False
 
     while (o := input("Enter AV offset (q to finalise): ")) != "q":
-        os.system(f'ffmpeg -i {rv} -itsoffset "{o}" -i {ra} -codec copy {rav} -y')
+        os.system(
+            f'ffmpeg -i {rv} -itsoffset "{o}" -i {ra} -codec copy {rav} -y'
+        )
         os.system(f"vlc {rav}")
 
     rs = ReverseSubtitle.path_write(project)

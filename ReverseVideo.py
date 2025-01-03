@@ -43,12 +43,16 @@ def process(project: str, ext_v: str, ext_seg: str, encode_twice: bool = False, 
     if os.path.exists(rv):
         return True
 
-    for dur in ["60.0", "69.0", "42.0", "127.1", "30.0"]:
-        os.system(
-            f'ffmpeg -i "{v}" -f segment -an -loglevel error '
-            + ('-q 7 -preset slow ' if encode_twice else '-vcodec copy ')
-            + f'-reset_timestamps 1 -segment_time {dur} -n "{d}/%d.{ext_seg}"'
-        )
+    for (dur, e) in [
+        ("69.0", encode_twice),
+        ("69.0", not encode_twice),
+        ("127.1", False),
+    ]:
+        os.system(' '.join([
+            f'ffmpeg -an -i "{v}" -f segment -hls_segment_type fmp4 -loglevel warning',
+            '-q 1 ' if e else '-vcodec copy ',
+            f'-segment_time {dur} -map 0 "{d}/%d.{ext_seg}" -n',
+        ]))
         f = open(t, "w")
         l = 0
         while os.path.exists(os.path.join(d, f"{l}.{ext_seg}")):
@@ -96,8 +100,8 @@ def process(project: str, ext_v: str, ext_seg: str, encode_twice: bool = False, 
 if __name__ == "__main__":
     args = argparse.ArgumentParser()
     args.add_argument("project", type=str)
-    args.add_argument("ext_v", type=str, default="v.webm", nargs="?")
-    args.add_argument("ext_seg", type=str, default="t.webm", nargs="?")
+    args.add_argument("ext_v", type=str, default="v.mp4", nargs="?")
+    args.add_argument("ext_seg", type=str, default="t.ts", nargs="?")
     args.add_argument("ff_args", type=str, default="", nargs="?")
     args.add_argument("--encode_twice", action="store_true")
     process(**args.parse_args().__dict__)
